@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: [Post, File, User, Hashtag],
   migrations: isTest ? [] : ['src/migrations/*.ts'],
-  synchronize: isTest,   // auto‐create tables
-  dropSchema: isTest,    // optionally drop old schema
+  synchronize: isTest,   // for testing auto‐create tables
+  dropSchema: isTest,    // for testing drop old schema
   logging: false,
 });

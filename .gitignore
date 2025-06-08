@@ -7,7 +7,7 @@ logs/
 
 # Environment variables
 .env
-.env.test
+# .env.test
 
 # OS files
 .DS_Store

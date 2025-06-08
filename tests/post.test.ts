@@ -6,9 +6,6 @@ beforeAll(async () => {
   if (!AppDataSource.isInitialized) {
     console.log('Initializing DB connection for test...');
     await AppDataSource.initialize();
-    // await AppDataSource.runMigrations();
-
-    console.log('Completed  DB connection test');
 
     // Seed a sudo user if needed
     const userRepo = AppDataSource.getRepository(User);
