@@ -8,6 +8,8 @@ beforeAll(async () => {
     await AppDataSource.initialize();
     await AppDataSource.runMigrations();
 
+    console.log('Completed  DB connection test');
+    
     // Seed a sudo user if needed
     const userRepo = AppDataSource.getRepository(User);
     const user = await userRepo.findOneBy({ userId: 1 });
