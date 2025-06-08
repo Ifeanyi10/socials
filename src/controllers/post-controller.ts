@@ -9,7 +9,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
   try {
     const { title, body, hashtags } = req.body;
     const uploadedFile = req.file;
-    const userId = 3; // TODO: Replace with actual user (from auth or request context)
+    const userId = 1; // TODO: Replace with actual user (from auth or request context)
 
     // 1. Validate title
     if (!title) {

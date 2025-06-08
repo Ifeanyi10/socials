@@ -1,10 +1,23 @@
 import request from 'supertest';
 import { app, AppDataSource } from '../src/index';
+import { User } from '../src/models/user-model';
 
 beforeAll(async () => {
   if (!AppDataSource.isInitialized) {
     console.log('Initializing DB connection for test...');
     await AppDataSource.initialize();
+    await AppDataSource.runMigrations();
+
+    // Seed a sudo user if needed
+    const userRepo = AppDataSource.getRepository(User);
+    const user = await userRepo.findOneBy({ userId: 1 });
+    if (!user) {
+      await userRepo.save({
+        userId: 1, // this is because the controller expects user id of 1
+        username: 'sudo',
+        email: 'sudo@example.com',
+      });
+    }
   }
 });
 
