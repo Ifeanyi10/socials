@@ -12,6 +12,8 @@ if (process.env.NODE_ENV === 'test') {
   dotenv.config();
 }
 
+const isTest = process.env.NODE_ENV === 'test';
+
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -20,7 +22,8 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [Post, File, User, Hashtag],
-  migrations: ['src/migrations/*.ts'],
-  synchronize: false,
+  migrations: isTest ? [] : ['src/migrations/*.ts'],
+  synchronize: isTest,   // auto‐create tables
+  dropSchema: isTest,    // optionally drop old schema
   logging: false,
 });
