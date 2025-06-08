@@ -1,0 +1,42 @@
+name: 'socials'
+
+services:
+  db:
+    image: postgres
+    container_name: social_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  init-db:
+    image: postgres
+    container_name: db_init
+    volumes:
+      - .:/app
+    entrypoint: ["/bin/bash", "/app/db/init-db.sh"]
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  app:
+    build: .
+    container_name: social_app
+    volumes:
+      - .:/app
+      - ./files:/app/files  # <--- Mount files folder for persistence
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
