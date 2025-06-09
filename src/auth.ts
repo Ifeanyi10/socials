@@ -4,6 +4,7 @@ import { File } from './models/file-model';
 import { Post } from './models/post-model';
 import { User } from './models/user-model';
 import { Hashtag } from './models/hashtag-model';
+import { Comment } from './models/comment-model';
 import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'test') {
@@ -21,7 +22,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Post, File, User, Hashtag],
+  entities: [Post, File, User, Hashtag, Comment],
   migrations: isTest ? [] : ['src/migrations/*.ts'],
   synchronize: isTest,   // for testing auto‐create tables
   dropSchema: isTest,    // for testing drop old schema

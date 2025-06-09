@@ -3,13 +3,13 @@ import { AppDataSource } from '../auth';
 import { Post } from '../models/post-model';
 import { File } from '../models/file-model';
 import { Hashtag } from '../models/hashtag-model';
-import { User } from '../models/user-model'; 
+import { validateUser } from '../utils/controller-validations';
 
 export const createPost = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, body, hashtags } = req.body;
+    const { title, body, hashtags, userId } = req.body;
     const uploadedFile = req.file;
-    const userId = 1; // TODO: Replace with actual user (from auth or request context)
+    // const userId = 1; // TODO: Replace with actual user (from auth or request context)
 
     // 1. Validate title
     if (!title) {
@@ -18,12 +18,8 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
     }
 
     // 2. Validate and fetch user
-    const userRepo = AppDataSource.getRepository(User);
-    const user = await userRepo.findOneBy({ userId });
-    if (!user) {
-        res.status(404).json({ message: 'User not found.' });
-        return;
-    }
+    const user = await validateUser(userId, res);
+    if (!user) return;
 
     // 3. If a file was uploaded, validate type
     if (uploadedFile) {

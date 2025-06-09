@@ -15,6 +15,9 @@ COPY . .
 # Create the files directory inside the container
 RUN mkdir -p files 
 
+# Expose port
+EXPOSE 3000
+
 # Make the init script executable
 RUN chmod +x db/init-db.sh
 
