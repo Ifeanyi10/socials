@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import postRoutes from './routes/post-routes';
+import commentRoutes from './routes/comment-routes';
 import { AppDataSource } from './auth';
 
 dotenv.config();
@@ -9,6 +10,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(postRoutes);
+app.use(commentRoutes);
+
+// Health check route
+app.get('/', (_req, res) => {
+  res.json({ message: 'Server is runnings.' });
+});
 
 // Connect to DB
 if (process.env.NODE_ENV !== 'test') {
